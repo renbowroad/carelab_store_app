@@ -1,16 +1,14 @@
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import React from "react";
 import Button from "../components/button";
-import { auth } from "../firebase/client";
+import { login, logout } from "../lib/auth";
 
 const Login = () => {
-  const login = () => {
-    const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider).then((res) => {
-      console.log(res);
-    });
-  };
-  return <Button onClick={login}>ログインする</Button>;
+  return (
+    <>
+        <Button onClick={login}>ログインする</Button>
+        <Button onClick={logout}>ログアウトする</Button>
+    </>
+  );
 };
 
 export default Login;
