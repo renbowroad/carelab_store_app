@@ -7,6 +7,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import Button from "../components/button";
 import { auth, db } from "../firebase/client";
+import axios from "axios";
 
 type User = {
   name: string;
@@ -17,6 +18,7 @@ type User = {
 const Signup = () => {
   const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>();
+  const [name, setName] = useState<string>();
 
   const {
     register,
@@ -25,34 +27,26 @@ const Signup = () => {
     formState: { errors },
   } = useForm<User>();
 
-  const submit = (data: User) => {
-    SingUp(data.name, data.email, data.password);
-  };
-
-  const SingUp = (name: string, email: string, password: string) => {
-    createUserWithEmailAndPassword(auth, email, password).then((result) => {
-      const user = result.user;
-      console.log(user);
-      if (user) {
-        const usersRef = collection(db, "users");
-        const documentRef = addDoc(usersRef, {
-          name: name,
-          email: email,
-          password: password,
-        })
-          .then(() => {
-            console.log(documentRef);
-          })
-          .catch(() => alert("エラーが発生しました"));
+  const SingUp = (data: User) => {
+    createUserWithEmailAndPassword(auth, data.email, data.password)
+    .then(
+      (result) => {
+        const user = result.user;
+        console.log(result);
+        axios.post("http://localhost:8080/v1/graphql", {
+          id: 2,
+          name: "Ren",
+          email: "Ren",
+        });
       }
-      router.push("/");
-    });
+    )
+    .catch((e) => console.log(e));
   };
 
   return (
     <div className="container">
       <h1>新規登録</h1>
-      <form onSubmit={handleSubmit(submit)} className="space-y-6">
+      <form onSubmit={handleSubmit(SingUp)} className="space-y-6">
         <div>
           <label className="block mb-0.5" htmlFor="name">
             名前*
@@ -72,6 +66,9 @@ const Signup = () => {
             })}
             type="text"
             id="name"
+            onChange={(e) => {
+              setName(e.target.value);
+            }}
           />
           {errors.name && (
             <p className="text-red-500">{errors.name?.message}</p>
