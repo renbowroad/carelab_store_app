@@ -29,18 +29,28 @@ const Signup = () => {
 
   const SingUp = (data: User) => {
     createUserWithEmailAndPassword(auth, data.email, data.password)
-    .then(
-      (result) => {
+      .then((result) => {
         const user = result.user;
         console.log(result);
-        axios.post("http://localhost:8080/v1/graphql", {
-          id: 2,
-          name: "Ren",
-          email: "Ren",
+        fetch("http://localhost:8080/v1/graphql", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            query: `
+            mutation {
+                insert_users(objects:[{id: 1, name:"Ren", email:"reeen@gmail.com"}]) {
+                  affected_rows
+                }
+              }
+          }
+        `,
+            variables: {},
+          }),
         });
-      }
-    )
-    .catch((e) => console.log(e));
+      })
+      .catch((e) => console.log(e));
   };
 
   return (
