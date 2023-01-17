@@ -1,3 +1,7 @@
+## アプリケーションのアーキテクチャ図
+
+<img width="1066" alt="スクリーンショット 2023-01-18 1 56 26" src="https://user-images.githubusercontent.com/105656864/212963351-50c94c15-5c1a-4491-b8e0-5b5aa29cc45b.png">
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
