@@ -39,18 +39,16 @@ const Signup = () => {
           },
           body: JSON.stringify({
             query: `
-            mutation {
-                insert_users(objects:[{id: 1, name:"Ren", email:"reeen@gmail.com"}]) {
-                  affected_rows
-                }
-              }
+            myschema_users{
+              name
+            }
           }
         `,
             variables: {},
           }),
         });
       })
-      .catch((e) => console.log(e));
+      .then((e) => console.log(e));
   };
 
   return (
